@@ -1,4 +1,4 @@
-name: Build Tailscale Derper Docker Image
+name: Build UDPXY Docker Image
 
 on:
   watch:

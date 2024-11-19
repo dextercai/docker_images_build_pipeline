@@ -11,6 +11,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Set timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date '+%Y.%m.%d.%H.%M%S')" >> $GITHUB_ENV
+      - name: Log timestamp
+        run: echo "Current timestamp: ${{ env.TIMESTAMP }}"
+
       - uses: actions/checkout@v2
       - name: Log in to DockerHub Registry
         uses: docker/login-action@v1
@@ -30,5 +36,5 @@ jobs:
           push: true
           tags: |
             dextercai/derper:latest
-            dextercai/derper
+            dextercai/derper:${{ env.TIMESTAMP }}
             

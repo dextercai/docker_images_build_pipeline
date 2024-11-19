@@ -17,8 +17,8 @@ jobs:
         id: timestamp
         run: echo "TIMESTAMP=$(date '+%Y.%m.%d.%H.%M%S')" >> $GITHUB_ENV
       - name: Log timestamp
-        run: echo "Current timestamp: ${{ env.TIMESTAMP }}"
-        
+        run: echo "Current timestamp ${{ env.TIMESTAMP }}"
+
       - name: Log in to DockerHub Registry
         uses: docker/login-action@v1
         with:

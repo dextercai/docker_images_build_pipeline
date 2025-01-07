@@ -19,6 +19,8 @@ RUN cd /home/wvp-GB28181-pro/web_src && \
         npm install && \
         npm run build
 RUN cd /home/wvp-GB28181-pro && \
+        sed -i '/<repositories>/,/<\/repositories>/d' pom.xml && \
+        sed -i '/<pluginRepositories>/,/<\/pluginRepositories>/d' pom.xml && \
         mvn clean package -Dmaven.test.skip=true && \
         cp /home/wvp-GB28181-pro/target/*.jar /opt/wvp/ && \
         cp /home/wvp-GB28181-pro/src/main/resources/application-docker.yml /opt/wvp/config/application.yml
@@ -26,6 +28,8 @@ RUN cd /home/wvp-GB28181-pro && \
 RUN cd /home && \
 		git clone "https://github.com/648540858/wvp-pro-assist.git"
 RUN cd /home/wvp-pro-assist && \
+        sed -i '/<repositories>/,/<\/repositories>/d' pom.xml && \
+        sed -i '/<pluginRepositories>/,/<\/pluginRepositories>/d' pom.xml && \
 	git reset --hard 58f1a79136a55a7cd1593c95b56ddadcc2225b61 && \
         mvn clean package -Dmaven.test.skip=true && \
         cp /home/wvp-pro-assist/target/*.jar /opt/assist/ && \

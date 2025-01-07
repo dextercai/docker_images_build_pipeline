@@ -28,9 +28,9 @@ RUN cd /home/wvp-GB28181-pro && \
 RUN cd /home && \
 		git clone "https://github.com/648540858/wvp-pro-assist.git"
 RUN cd /home/wvp-pro-assist && \
+	git reset --hard 58f1a79136a55a7cd1593c95b56ddadcc2225b61 && \
         sed -i '/<repositories>/,/<\/repositories>/d' pom.xml && \
         sed -i '/<pluginRepositories>/,/<\/pluginRepositories>/d' pom.xml && \
-	git reset --hard 58f1a79136a55a7cd1593c95b56ddadcc2225b61 && \
         mvn clean package -Dmaven.test.skip=true && \
         cp /home/wvp-pro-assist/target/*.jar /opt/assist/ && \
         cp /home/wvp-pro-assist/src/main/resources/application-dev.yml /opt/assist/config/application.yml

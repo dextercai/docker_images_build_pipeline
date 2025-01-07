@@ -3,8 +3,6 @@ name: Build WVP Pro Docker Image
 on:
   watch:
     types: [started]
-  push:
-    branches: [main]
   workflow_dispatch:
     
 jobs:

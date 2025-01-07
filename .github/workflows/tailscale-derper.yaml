@@ -3,8 +3,6 @@ name: Build Tailscale Derper Docker Image
 on:
   watch:
     types: [started]
-  push:
-    branches: [main]
   workflow_dispatch:
     
 jobs:

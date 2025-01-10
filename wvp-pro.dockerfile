@@ -21,6 +21,7 @@ RUN cd /home/wvp-GB28181-pro/web_src && \
 RUN cd /home/wvp-GB28181-pro && \
         sed -i '/<repositories>/,/<\/repositories>/d' pom.xml && \
         sed -i '/<pluginRepositories>/,/<\/pluginRepositories>/d' pom.xml && \
+        find . -type f -exec sed -i 's/"WVP-Pro "/"GB28181 "/g' {} + && \
         mvn clean package -Dmaven.test.skip=true && \
         cp /home/wvp-GB28181-pro/target/*.jar /opt/wvp/ && \
         cp /home/wvp-GB28181-pro/src/main/resources/application-docker.yml /opt/wvp/config/application.yml

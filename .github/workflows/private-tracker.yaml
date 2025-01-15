@@ -1,0 +1,38 @@
+name: Build privtracker Docker Image
+
+on:
+  watch:
+    types: [started]
+  workflow_dispatch:
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: "meehow/privtracker"
+      - name: Set timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date '+%Y.%m.%d.%H.%M%S')" >> $GITHUB_ENV
+      - name: Log timestamp
+        run: echo "Current timestamp ${{ env.TIMESTAMP }}"
+
+      - name: Log in to DockerHub Registry
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build and push
+        uses: docker/build-push-action@v5.0.0
+        with:
+          platforms: linux/amd64, linux/arm64
+          push: true
+          tags: |
+            dextercai/privtracker:latest
+            dextercai/privtracker:${{ env.TIMESTAMP }}
+            

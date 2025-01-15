@@ -12,6 +12,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: "meehow/privtracker"
+      - run: |
+          ls
+          tree
       - name: Set timestamp
         id: timestamp
         run: echo "TIMESTAMP=$(date '+%Y.%m.%d.%H.%M%S')" >> $GITHUB_ENV

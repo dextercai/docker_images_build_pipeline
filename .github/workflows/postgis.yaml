@@ -46,6 +46,7 @@ jobs:
           context: .
           file: postgis.16-3.5.dockerfile
           platforms: linux/amd64
+          provenance: false
           push: true
           tags: |
             dextercai/postgis:16-3.5

@@ -10,7 +10,7 @@ on:
       to:
         description: 'To'
         required: true
-        default: 'dextercai/busybox'
+        default: 'docker.cnb.cool/dextercai/docker/test'
       arch:
         description: 'Arch'
         required: true

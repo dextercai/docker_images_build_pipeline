@@ -14,7 +14,7 @@ on:
       arch:
         description: 'Arch'
         required: true
-        default: 'dextercai/busybox'
+        default: 'linux/amd64,linux/arm64'
 
 jobs:
   pull_and_push:

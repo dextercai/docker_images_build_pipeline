@@ -46,20 +46,25 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Gen Dockerfile
-        id: gen-dockefile
-        run: |
-          cat << EOF > pull-and-push.dockerfile 
-          FROM ${{ github.event.inputs.from }}
-          EOF
+      # - name: Gen Dockerfile
+      #   id: gen-dockefile
+      #   run: |
+      #     cat << EOF > pull-and-push.dockerfile 
+      #     FROM ${{ github.event.inputs.from }}
+      #     EOF
       
-      - name: Build and push
-        uses: docker/build-push-action@v5.0.0
-        with:
-          context: .
-          file: pull-and-push.dockerfile
-          platforms: ${{ github.event.inputs.arch }}
-          push: true
-          tags: |
-            ${{ github.event.inputs.to }}
+      # - name: Build and push
+      #   uses: docker/build-push-action@v5.0.0
+      #   with:
+      #     context: .
+      #     file: pull-and-push.dockerfile
+      #     platforms: ${{ github.event.inputs.arch }}
+      #     push: true
+      #     tags: |
+      #       ${{ github.event.inputs.to }}
+      - name: Push image to GHCR
+        run: |
+          docker buildx imagetools create \
+            --tag ${{ github.event.inputs.to }} \
+            ${{ github.event.inputs.from }}
           

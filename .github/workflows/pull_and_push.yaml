@@ -62,7 +62,7 @@ jobs:
       #     push: true
       #     tags: |
       #       ${{ github.event.inputs.to }}
-      - name: Push image to GHCR
+      - name: Push image 
         run: |
           docker buildx imagetools create \
             --tag ${{ github.event.inputs.to }} \

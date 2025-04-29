@@ -62,9 +62,20 @@ jobs:
       #     push: true
       #     tags: |
       #       ${{ github.event.inputs.to }}
-      - name: Push image 
+      - name: 'Set up skopeo'
+        uses: warjiang/setup-skopeo@main
+        with:
+          version: latest
+
+      - name: 'Sync images'
         run: |
-          docker buildx imagetools create \
-            --tag ${{ github.event.inputs.to }} \
-            ${{ github.event.inputs.from }}
+          skopeo --version
+          skopeo copy \
+          docker://${{ github.event.inputs.from }} \
+          docker://${{ github.event.inputs.to }}
+      # - name: Push image 
+      #   run: |
+      #     docker buildx imagetools create \
+      #       --tag ${{ github.event.inputs.to }} \
+      #       ${{ github.event.inputs.from }}
           

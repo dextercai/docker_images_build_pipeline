@@ -71,11 +71,13 @@ jobs:
         run: |
           skopeo --version
           skopeo copy \
+          --multi-arch all \
           docker://${{ github.event.inputs.from }} \
           docker://${{ github.event.inputs.to }}
       # - name: Push image 
       #   run: |
       #     docker buildx imagetools create \
       #       --tag ${{ github.event.inputs.to }} \
-      #       ${{ github.event.inputs.from }}
+      #       ${{ github.event.inputs.from }} 
+
           

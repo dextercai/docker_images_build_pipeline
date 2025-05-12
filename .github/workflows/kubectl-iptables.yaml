@@ -1,4 +1,4 @@
-name: Build WVP Pro Docker Image
+name: Build KubectlIptables
 
 on:
   watch:

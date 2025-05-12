@@ -35,4 +35,5 @@ jobs:
           push: true
           tags: |
             dextercai/kubectl-iptables:1.29
+            dextercai/kubectl-iptables:1.29-debian-12
             

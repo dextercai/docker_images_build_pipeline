@@ -13,7 +13,7 @@ jobs:
 
       - name: Set timestamp
         id: timestamp
-        run: echo "TIMESTAMP=$(date '+%Y.%m.%d.%H.%M%S')" >> $GITHUB_ENV
+        run: echo "TIMESTAMP=$(date '+%Y%m%d.%H%M%S')" >> $GITHUB_ENV
       - name: Log timestamp
         run: echo "Current timestamp ${{ env.TIMESTAMP }}"
 
@@ -36,4 +36,6 @@ jobs:
           tags: |
             dextercai/kubectl-iptables:1.29
             dextercai/kubectl-iptables:1.29-debian-12
+            dextercai/kubectl-iptables:1.29-debian-12-${{ env.TIMESTAMP }}
+            dextercai/kubectl-iptables:1.29-${{ env.TIMESTAMP }}
             

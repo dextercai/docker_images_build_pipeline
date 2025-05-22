@@ -1,0 +1,55 @@
+name: Crop PMTiles
+
+on:
+  workflow_dispatch:
+    inputs:
+      from:
+        description: 'From'
+        required: true
+        default: 'https://build.protomaps.com/20250521.pmtiles'
+      label:
+        description: 'Label'
+        required: true
+        default: 'latest'
+      maxzoom:
+        description: 'MaxZoom'
+        required: true
+        default: '14'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+          
+      - name: Install Tools
+        run: go install github.com/protomaps/go-pmtiles@latest
+      
+      - name: cut
+        run: |
+          mkdir output
+          go-pmtiles extract ${{ github.event.inputs.from }} ./output/output.pmtiles --maxzoom=${{ github.event.inputs.maxzoom }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: docker.cnb.cool
+          username: ${{ secrets.CNB_DOCKER_AK }}
+          password: ${{ secrets.CNB_DOCKER_SK }}
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
+      - name: Build and push
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: .
+          file: protomap/static.dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: |
+            docker.cnb.cool/dextercai/docker_public/protomap-static:${{ github.event.inputs.label }}
+            

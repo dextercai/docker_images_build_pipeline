@@ -7,8 +7,4 @@ RUN go install github.com/protomaps/go-pmtiles@latest
 WORKDIR /dist
 RUN go-pmtiles extract ${FROM} ./output.pmtiles --maxzoom=${MAXZOOM}
 
-FROM protomaps/go-pmtiles
-
-WORKDIR /dist
-
-COPY --from=downloader /dist/output.pmtiles /dist/output.pmtiles 
+ENTRYPOINT ["go-pmtiles"]

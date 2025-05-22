@@ -2,19 +2,19 @@ name: Crop PMTiles
 
 on:
   workflow_dispatch:
-    # inputs:
-    #   from:
-    #     description: 'From'
-    #     required: true
-    #     default: 'https://build.protomaps.com/20250521.pmtiles'
-    #   label:
-    #     description: 'Label'
-    #     required: true
-    #     default: 'latest'
-    #   maxzoom:
-    #     description: 'MaxZoom'
-    #     required: true
-    #     default: '14'
+    inputs:
+      from:
+        description: 'From'
+        required: true
+        default: 'https://build.protomaps.com/20250521.pmtiles'
+      label:
+        description: 'Label'
+        required: true
+        default: 'latest'
+      maxzoom:
+        description: 'MaxZoom'
+        required: true
+        default: '14'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
     - name: cut
       run: |
         mkdir output
-        go-pmtiles extract https://build.protomaps.com/20250521.pmtiles ./output/output.pmtiles --maxzoom=14
+        go-pmtiles extract ${{ github.event.inputs.from }} ./output/output.pmtiles --maxzoom=${{ github.event.inputs.maxzoom }}
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
@@ -48,5 +48,5 @@ jobs:
         platforms: linux/amd64
         push: true
         tags: |
-          docker.cnb.cool/dextercai/docker_public/protomap-static:20250521-14
+          docker.cnb.cool/dextercai/docker_public/protomap-static:${{ github.event.inputs.label }}
             

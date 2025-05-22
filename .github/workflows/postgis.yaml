@@ -50,6 +50,5 @@ jobs:
           push: true
           tags: |
             dextercai/postgis:16-3.5
-            swr.cn-east-3.myhuaweicloud.com/dextercai-cloud/postgis:16-3.5
             docker.cnb.cool/dextercai/docker/postgis:16-3.5
             

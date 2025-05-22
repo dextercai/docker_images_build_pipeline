@@ -50,6 +50,5 @@ jobs:
           tags: |
             dextercai/derper:latest
             dextercai/derper:${{ env.TIMESTAMP }}
-            swr.cn-east-3.myhuaweicloud.com/dextercai-cloud/derper:latest
             docker.cnb.cool/dextercai/docker/derper:latest
             

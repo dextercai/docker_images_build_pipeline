@@ -6,15 +6,15 @@ on:
       from:
         description: 'From'
         required: true
-        default: 'https://build.protomaps.com/20250521.pmtiles'
+        default: 'https://build.protomaps.com/20250522.pmtiles'
       label:
         description: 'Label'
         required: true
-        default: 'latest'
+        default: '20250522-12'
       maxzoom:
         description: 'MaxZoom'
         required: true
-        default: '14'
+        default: '12'
 jobs:
   build:
     runs-on: ubuntu-latest

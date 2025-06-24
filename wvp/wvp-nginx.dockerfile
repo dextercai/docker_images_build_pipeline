@@ -15,6 +15,6 @@ FROM nginx:1.27.5-alpine AS runtime
 
 WORKDIR /opt/
 
-COPY --builder /app/wvp-repo/web/dist ./
+COPY --from=builder /app/wvp-repo/web/dist ./
 
 CMD ["nginx","-g","daemon off;"]

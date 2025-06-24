@@ -1,3 +1,15 @@
+FROM node:18 AS front_builder
+
+WORKDIR /app
+
+RUN git clone https://github.com/648540858/wvp-GB28181-pro.git wvp-repo
+
+WORKDIR /app/wvp-repo/web
+
+RUN npm install && \
+    npm run build:prod
+
+
 FROM maven:3.9.10-eclipse-temurin-8 AS builder
 
 RUN java -version && javac -version
@@ -5,6 +17,10 @@ RUN java -version && javac -version
 WORKDIR /app
 
 RUN git clone https://github.com/648540858/wvp-GB28181-pro.git wvp-repo
+
+COPY --from=front_builder /app/wvp-repo/src/main/resources/static /app/wvp-repo/src/main/resources/
+
+RUN ls /app/wvp-repo/src/main/resources/
 
 RUN cd wvp-repo && \
     sed -i '/<repositories>/,/<\/repositories>/d' pom.xml && \

@@ -8,7 +8,7 @@ RUN git clone https://github.com/648540858/wvp-GB28181-pro.git wvp-repo
 
 RUN cd wvp-repo/web \
     npm install && \
-    npm run build
+    npm run build:prod
 
 
 

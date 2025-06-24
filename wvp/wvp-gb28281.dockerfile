@@ -7,6 +7,8 @@ WORKDIR /app
 RUN git clone https://github.com/648540858/wvp-GB28181-pro.git wvp-repo
 
 RUN cd wvp-repo && \
+    sed -i '/<repositories>/,/<\/repositories>/d' pom.xml && \
+    sed -i '/<pluginRepositories>/,/<\/pluginRepositories>/d' pom.xml && \
     mvn clean package -Dmaven.test.skip=true
 
 

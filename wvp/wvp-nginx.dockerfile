@@ -4,10 +4,9 @@ WORKDIR /app
 
 RUN git clone https://github.com/648540858/wvp-GB28181-pro.git wvp-repo
 
+WORKDIR /app/wvp-repo/web
 
-
-RUN cd wvp-repo/web \
-    npm install && \
+RUN npm install && \
     npm run build:prod
 
 

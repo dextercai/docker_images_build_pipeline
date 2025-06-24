@@ -21,8 +21,5 @@ EXPOSE 8116/tcp
 EXPOSE 8116/udp
 EXPOSE 8080/tcp
 
-ENTRYPOINT ["java", "-Xms512m", "-Xmx1024m", 
-            "-XX:+HeapDumpOnOutOfMemoryError", "-XX:HeapDumpPath=/opt/wvp/debug/", 
-            "-jar", "wvp.jar", 
-            "--spring.config.location=/opt/wvp/config/application.yml"]
+ENTRYPOINT ["java", "-Xms512m", "-Xmx1024m", "-XX:+HeapDumpOnOutOfMemoryError", "-XX:HeapDumpPath=/opt/wvp/debug/", "-jar", "wvp.jar", "--spring.config.location=/opt/wvp/config/application.yml"]
 

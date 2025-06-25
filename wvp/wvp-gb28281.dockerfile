@@ -18,7 +18,7 @@ WORKDIR /app
 
 RUN git clone https://github.com/648540858/wvp-GB28181-pro.git wvp-repo
 
-COPY --from=front_builder /app/wvp-repo/src/main/resources/static /app/wvp-repo/src/main/resources/
+COPY --from=front_builder /app/wvp-repo/src/main/resources/static /app/wvp-repo/src/main/resources/static
 
 RUN ls /app/wvp-repo/src/main/resources/
 

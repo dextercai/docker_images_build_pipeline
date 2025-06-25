@@ -31,7 +31,7 @@ jobs:
       with:
         context: .
         file: wvp/wvp-gb28281.dockerfile
-        platforms: linux/amd64, linux/arm64
+        platforms: linux/amd64
         push: true
         tags: |
           dextercai/wvp_pro:${{ env.TIMESTAMP }}

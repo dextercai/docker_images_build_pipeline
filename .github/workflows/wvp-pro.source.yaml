@@ -1,4 +1,4 @@
-name: Build WVP Pro Docker Image Next
+name: Build WVP Pro Docker Image Source
 
 on:
   watch:

@@ -1,4 +1,4 @@
-name: Build WVP Pro Docker Image X86
+name: Build WVP Pro Docker Image DexterCai
 
 on:
   watch:
@@ -30,8 +30,8 @@ jobs:
       uses: docker/build-push-action@v5.0.0
       with:
         context: .
-        file: wvp/wvp-gb28281.dockerfile
-        platforms: linux/amd64
+        file: wvp/wvp-gb28281-drc.dockerfile
+        platforms: linux/amd64, linux/arm64
         push: true
         tags: |
           dextercai/wvp_pro:${{ env.TIMESTAMP }}

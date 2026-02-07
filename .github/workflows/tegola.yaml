@@ -85,6 +85,36 @@ jobs:
         with:
           repository: 'go-spatial/tegola'
 
+      - name: Download version artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: version
+
+      - name: Download ui artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ui
+          path: ${{ github.workspace }}/ui/dist
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+          check-latest: true
+
+      - name: Set tegola version
+        run: go run ci/cat_version_envs.go -version_file version.txt | tee $GITHUB_ENV
+        shell: bash
+
+      - name: Download default-branch-ref artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: default-branch-ref
+
+      - name: Set tegola default branch ref
+        run: echo "DEFAULT_BRANCH_REF=$(cat default-branch-ref.txt)" >> $GITHUB_ENV
+        shell: bash
+
       - name: Set timestamp
         id: timestamp
         run: echo "TIMESTAMP=$(date '+%Y.%m.%d.%H.%M%S')" >> $GITHUB_ENV

@@ -12,7 +12,7 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v4
       with:
-          repository: 'go-spatial/tegola'
+        repository: 'go-spatial/tegola'
 
     # on release, we want to use release.tag_name for the version
     - name: Set tegola version (use release.tag_name)

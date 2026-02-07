@@ -4,12 +4,91 @@ on:
   workflow_dispatch:
     
 jobs:
+  gen_version:
+    name: Generate software version
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v4
+      with:
+          repository: 'go-spatial/tegola'
+
+    # on release, we want to use release.tag_name for the version
+    - name: Set tegola version (use release.tag_name)
+      if: github.event_name == 'release'
+      run: echo ${{ github.event.release.tag_name }} > ${{ github.workspace }}/version.txt
+
+    # when it's not a release build use the commit hash for the version tag
+    - name: Set tegola version (use commit hash)
+      if: github.event_name != 'release'
+      run: echo ${{ github.sha }} | cut -c1-7 > ${{ github.workspace }}/version.txt
+
+    - name: Upload build artifact version
+      uses: actions/upload-artifact@v4
+      with:
+        name: version
+        path: ${{ github.workspace }}/version.txt
+
+    # when it's not a release, but we want to perform an action on a new push/pr to default branch
+    # we need the default branch ref, which in case of tegola changes with the version
+    - name: Get tegola default branch ref
+      run: |
+        DEFAULT_BRANCH=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
+        echo "DEFAULT_BRANCH=$DEFAULT_BRANCH" >> $GITHUB_ENV
+        echo "refs/heads/$DEFAULT_BRANCH" > ${{ github.workspace }}/default-branch-ref.txt
+
+    - name: Upload build artifacts default branch ref
+      uses: actions/upload-artifact@v4
+      with:
+        name: default-branch-ref
+        path: ${{ github.workspace }}/default-branch-ref.txt
+
+  build_ui:
+    name: Build for embedded ui
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          repository: 'go-spatial/tegola'
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+          check-latest: true
+
+      - name: Build embedded UI
+        run: |
+          pushd ${GITHUB_WORKSPACE}/server
+          go generate ./...
+          popd
+
+      - name: Upload build artifact version
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui
+          path: ${{ github.workspace }}/ui/dist
   build:
     runs-on: ubuntu-latest
+    needs: [gen_version,build_ui]
+    env:
+      BUILD_ARGS: |
+        BUILDPKG=${BUILD_PKG}
+        VER=${VERSION}
+        BRANCH=${GIT_BRANCH}
+        REVISION=${GIT_REVISION}
     steps:
       - uses: actions/checkout@v6
         with:
           repository: 'go-spatial/tegola'
+      
+      - name: Setup env
+        uses: ./.github/actions/tegola-setup-env
+        with:
+          ui: true
 
       - name: Set timestamp
         id: timestamp
@@ -32,6 +111,7 @@ jobs:
           context: .
           platforms: linux/amd64
           push: true
+          build-args: ${{ env.BUILD_ARGS }}
           tags: |
             dextercai/tegola:${{ env.TIMESTAMP }}
             

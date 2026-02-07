@@ -29,6 +29,10 @@ runs:
         name: ui
         path: ${{ github.workspace }}/ui/dist
       if: ${{ inputs.ui == 'true' }}
+    
+    - run: ls -al
+
+    - run: cat go.mod
 
     - name: Set up Go
       uses: actions/setup-go@v5

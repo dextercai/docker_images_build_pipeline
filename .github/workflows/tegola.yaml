@@ -84,11 +84,6 @@ jobs:
       - uses: actions/checkout@v6
         with:
           repository: 'go-spatial/tegola'
-      
-      - name: Setup env
-        uses: ./.github/actions/tegola-setup-env
-        with:
-          ui: true
 
       - name: Set timestamp
         id: timestamp

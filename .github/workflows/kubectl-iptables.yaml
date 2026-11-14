@@ -1,8 +1,6 @@
 name: Build KubectlIptables
 
 on:
-  watch:
-    types: [started]
   workflow_dispatch:
     
 jobs:

@@ -34,8 +34,21 @@ jobs:
           context: .
           file: Dockerfile
           platforms: linux/amd64, linux/arm64
-          push: true
+          push: false
           tags: |
             dextercai/gtfobins:latest
             dextercai/gtfobins:${{ env.TIMESTAMP }}
+            
+      - name: Package Site
+        run: |
+          test -s _site/index.html
+          cd _site
+          zip -qr ../gtfobins-site.zip .
+
+      - name: Upload ZIP
+        uses: actions/upload-artifact@v7
+        with:
+          path: gtfobins-site.zip
+          archive: false
+          retention-days: 30
             
